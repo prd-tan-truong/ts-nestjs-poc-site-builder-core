@@ -13,8 +13,9 @@ import { EntityClassOrSchema } from '@nestjs/typeorm/dist/interfaces/entity-clas
         database: configService.getOrThrow('MSSQL_DATABASE'),
         username: configService.getOrThrow('MSSQL_USERNAME'),
         password: configService.getOrThrow('MSSQL_PASSWORD'),
-        synchronize: false,
-        autoLoadEntities: true,
+        options: {
+          encrypt: false,
+        },
       }),
       inject: [ConfigService],
     }),
