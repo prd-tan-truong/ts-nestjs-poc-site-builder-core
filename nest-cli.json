@@ -5,7 +5,8 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/sites/tsconfig.app.json"
+    "tsConfigPath": "apps/sites/tsconfig.app.json",
+    "plugins": ["@nestjs/swagger"]
   },
   "projects": {
     "common": {
@@ -15,15 +16,6 @@
       "sourceRoot": "libs/common/src",
       "compilerOptions": {
         "tsConfigPath": "libs/common/tsconfig.lib.json"
-      }
-    },
-    "ts-nestjs-poc-site-builder-core": {
-      "type": "application",
-      "root": "apps/sites",
-      "entryFile": "main",
-      "sourceRoot": "apps/sites/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/sites/tsconfig.app.json"
       }
     },
     "sites": {
