@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 
 @Catch()
-export class GlobalExceptionFilter implements ExceptionFilter {
+export class BaseExceptionFilter implements ExceptionFilter {
   constructor(private readonly configService: ConfigService) {}
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -25,13 +25,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     response.status(status).json({
       statusCode: status,
       message,
-      error:
-        this.configService.get('NODE_ENV') !== 'production'
-          ? {
-              response: exception.response,
-              stack: exception.stack,
-            }
-          : null,
+      code: exception.response.code,
     });
   }
 }
