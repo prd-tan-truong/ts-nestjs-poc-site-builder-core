@@ -8,8 +8,8 @@ import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 
 @Catch()
-export class BaseExceptionFilter implements ExceptionFilter {
-  constructor(private readonly configService: ConfigService) {}
+export class GlobalExceptionFilter implements ExceptionFilter {
+  constructor(private readonly config_service: ConfigService) {}
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
@@ -21,11 +21,10 @@ export class BaseExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.message
         : 'Internal server error';
-
     response.status(status).json({
       statusCode: status,
       message,
-      code: exception.response.code,
+      code: exception.response?.code || null,
     });
   }
 }
