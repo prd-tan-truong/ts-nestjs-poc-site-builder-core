@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, RequestMethod } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { LoggerModule as PinoLogger } from 'nestjs-pino';
 
@@ -6,6 +6,25 @@ import { LoggerModule as PinoLogger } from 'nestjs-pino';
   imports: [
     PinoLogger.forRoot({
       pinoHttp: {
+        customReceivedMessage: function () {
+          return `Request received `;
+        },
+        customSuccessMessage: function () {
+          return `Request completed `;
+        },
+        serializers: {
+          req(req) {
+            req.body = req.raw.body;
+            return {
+              id: req.id,
+              method: req.method,
+              url: req.url,
+              query: req.query,
+              params: req.params,
+              body: req.body,
+            };
+          },
+        },
         genReqId: (req, res) => {
           const id = req.headers['x-request-id'] || randomUUID();
           res.setHeader('X-Request-ID', id);
@@ -21,6 +40,7 @@ import { LoggerModule as PinoLogger } from 'nestjs-pino';
               }
             : undefined,
       },
+      exclude: [{ method: RequestMethod.ALL, path: 'health' }],
     }),
   ],
 })
