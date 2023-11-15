@@ -1,11 +1,17 @@
 import { Module } from '@nestjs/common';
 import { SitesController } from './sites.controller';
 import { SitesService } from './sites.service';
-import { DatabaseModule, HealthModule, LoggerModule } from '@app/common';
+import {
+  DatabaseModule,
+  GlobalExceptionFilter,
+  HealthModule,
+  LoggerModule,
+} from '@app/common';
 import { Site } from './models/site.entity';
 import { SiteRepository } from './sites.repository';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -26,6 +32,13 @@ import * as Joi from 'joi';
     }),
   ],
   controllers: [SitesController],
-  providers: [SitesService, SiteRepository],
+  providers: [
+    SitesService,
+    SiteRepository,
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+  ],
 })
 export class SitesModule {}

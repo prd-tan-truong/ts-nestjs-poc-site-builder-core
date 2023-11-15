@@ -1,8 +1,10 @@
-import { Exclude } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
-export default class SiteModel {
+export default class SiteDto {
   PK_CareerSiteID: number;
-  FK_CompanyID: number;
+
+  @Expose({ name: 'crm_company_id', toPlainOnly: true })
+  CompanyID?: number;
   Name: string;
   CompanyName: string;
   CEMAccountID: number;
@@ -16,6 +18,5 @@ export default class SiteModel {
   LastPublished: Date;
   CEMSystemID: string;
 
-  @Exclude()
   CEMAccountUUID: string;
 }
