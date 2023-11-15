@@ -21,6 +21,7 @@ import { LoggerModule as PinoLogger } from 'nestjs-pino';
               url: req.url,
               query: req.query,
               params: req.params,
+              headers: req.headers,
               body: req.body,
             };
           },

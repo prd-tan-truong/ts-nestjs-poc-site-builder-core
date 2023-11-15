@@ -12,6 +12,7 @@ import { SiteRepository } from './sites.repository';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { APP_FILTER } from '@nestjs/core';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { APP_FILTER } from '@nestjs/core';
         MSSQL_PASSWORD: Joi.string().required(),
       }),
     }),
+    AuthModule,
   ],
   controllers: [SitesController],
   providers: [

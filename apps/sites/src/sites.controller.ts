@@ -1,7 +1,8 @@
-import { Controller, Get, Logger, Param } from '@nestjs/common';
+import { Controller, Get, Logger, Param, UseGuards } from '@nestjs/common';
 import { SitesService } from './sites.service';
 import SiteDto from './models/site.dto';
 import { PaginatedResource } from '@app/common';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('sites')
 export class SitesController {
@@ -27,6 +28,7 @@ export class SitesController {
     return await this.sitesService.getSites();
   }
 
+  @UseGuards(AuthGuard('basic'))
   @Get(':id')
   async getSite(@Param('id') id: number): Promise<SiteDto> {
     const data = await this.sitesService.getSite(id);
