@@ -1,0 +1,12 @@
+services:
+  reservations:
+    build:
+      context: .
+      dockerfile: ./apps/sites/Dockerfile
+      target: development
+    command: pnpm run start:dev sites
+    env_file: ./apps/sites/.env
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/src/app
