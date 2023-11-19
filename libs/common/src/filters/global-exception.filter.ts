@@ -21,10 +21,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       exception instanceof HttpException
         ? exception.message
         : 'Internal server error';
+    const details = exception.response?.details || '';
     response.status(status).json({
       statusCode: status,
       message,
       code: exception.response?.code || null,
+      details: process.env.NODE_ENV !== 'production' ? details : '',
     });
   }
 }
