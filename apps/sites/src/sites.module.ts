@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
+import { SiteSettingsModule } from './site-settings/site-settings.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
     AuthModule,
+    SiteSettingsModule,
   ],
   controllers: [SitesController],
   providers: [
