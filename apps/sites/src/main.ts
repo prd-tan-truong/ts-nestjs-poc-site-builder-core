@@ -7,7 +7,7 @@ import { TransformationInterceptor, configSwagger } from '@app/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(SitesModule);
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
   app.useLogger(app.get(Logger));
   app.useGlobalInterceptors(new TransformationInterceptor(app.get(Reflector)));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));

@@ -2,9 +2,7 @@ import { Expose } from 'class-transformer';
 import { IsBoolean } from 'class-validator';
 
 export class AnalyticsDto {
-  @IsBoolean()
-  @Expose({ name: 'google_analytics_enabled', toPlainOnly: true })
+  @IsBoolean({ groups: ['analytics'] })
+  @Expose({ name: 'google_analytics_enaled', toPlainOnly: true })
   GoogleAnalyticsEnabled: boolean;
 }
-
-export class UpdateAnalyticsDto extends AnalyticsDto {}

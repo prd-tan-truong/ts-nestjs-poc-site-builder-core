@@ -1,41 +1,47 @@
 import {
   Controller,
   Get,
-  Post,
   Param,
   Query,
   Body,
   SerializeOptions,
+  Put,
+  ParseIntPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SiteSettingsService } from './site-settings.service';
 import { ConditionalValidationPipe } from './pipes/conditional-validation.pipe';
-import { SettingType } from './constants/setting-type.constant';
-import {
-  SiteSettingsDto,
-  UpdateSiteSettingsDto,
-} from './dto/site-settings.dto';
+import { SiteSettingsDto } from './dto/site-settings.dto';
+import { GetSettingsQueryParamsDto } from './dto/get-settings-query-params.dto';
+import { SiteSettingSerializerInterceptor } from './interceptors/site-settings.interceptor';
 
 @Controller('site-settings')
 export class SiteSettingsController {
   constructor(private readonly siteSettingsService: SiteSettingsService) {}
 
-  @Post(':id')
-  createSettingOfSite(
-    @Param('id') id: string,
-    @Body(new ConditionalValidationPipe()) data: UpdateSiteSettingsDto,
+  @Put(':id')
+  async updateSettingOfSite(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(new ConditionalValidationPipe())
+    updateSiteSettingsDto: any,
   ) {
-    console.log(data);
-    return data;
+    await this.siteSettingsService.update(id, updateSiteSettingsDto);
+    return updateSiteSettingsDto;
   }
 
   @Get(':id')
-  @SerializeOptions({ excludeExtraneousValues: true })
+  @SerializeOptions({
+    excludeExtraneousValues: true,
+  })
+  @UseInterceptors(SiteSettingSerializerInterceptor)
   async getSiteSettings(
-    @Param('id') id: string,
-    @Query('type') type: SettingType,
+    @Param('id', ParseIntPipe) id: number,
+    @Query() query: GetSettingsQueryParamsDto,
   ): Promise<SiteSettingsDto> {
-    const data: SiteSettingsDto = await this.siteSettingsService.get(+id, type);
-    // const dtoClass = DtoFactory.getDto(type);
+    const data: SiteSettingsDto = await this.siteSettingsService.get(
+      id,
+      query.type,
+    );
     return data;
   }
 }

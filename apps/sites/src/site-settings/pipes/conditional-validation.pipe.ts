@@ -6,8 +6,7 @@ import {
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { DtoFactory } from '../utils/dto-factory.util';
-import { UpdateSiteSettingsDto } from '../dto/site-settings.dto';
+import { UpdateSiteSettingsDto } from '../dto/update-settings.dto';
 
 @Injectable()
 export class ConditionalValidationPipe implements PipeTransform {
@@ -15,15 +14,10 @@ export class ConditionalValidationPipe implements PipeTransform {
     if (!metadata || metadata.type != 'body') {
       return entity;
     }
-    const dtoClass = DtoFactory.getDto(entity.type);
     // Transform to class with groups
-    const entityClass = plainToInstance<UpdateSiteSettingsDto, object>(
-      dtoClass,
-      entity.data,
-    );
-
+    const entityClass = plainToInstance(UpdateSiteSettingsDto, entity);
     // Validate with groups
-    const errors = await validate(entityClass);
+    const errors = await validate(entityClass, { groups: [entity.type] });
     if (errors.length > 0) {
       throw new BadRequestException({
         message: 'Bad Request',

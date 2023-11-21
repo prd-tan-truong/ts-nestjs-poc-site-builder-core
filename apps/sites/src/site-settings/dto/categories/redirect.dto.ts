@@ -34,5 +34,3 @@ export class RedirectDto {
   @Expose({ name: 'date_created' })
   dateCreated: Date;
 }
-
-export class UpdateRedirectDto extends RedirectDto {}
