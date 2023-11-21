@@ -5,7 +5,7 @@ import { DataSource, EntityManager, Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import { SiteSettings } from './models/site-setting.entity';
 import { SettingType } from './constants/setting-type.constant';
-import { SiteSettingsDto } from './dto/site-settings.dto';
+import { SiteSettingsDto } from './dto/get-site-settings.dto';
 
 @Injectable()
 export class SiteSettingsRepository extends AbstractRepository<SiteSettings> {

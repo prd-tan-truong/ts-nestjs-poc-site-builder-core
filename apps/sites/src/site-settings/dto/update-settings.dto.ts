@@ -1,5 +1,5 @@
 import { IsEnum } from 'class-validator';
-import { SiteSettingsDto } from './site-settings.dto';
+import { SiteSettingsDto } from './get-site-settings.dto';
 import { SettingType } from '../constants/setting-type.constant';
 import { Type } from 'class-transformer';
 

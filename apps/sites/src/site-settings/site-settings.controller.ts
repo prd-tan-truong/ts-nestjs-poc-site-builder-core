@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { SiteSettingsService } from './site-settings.service';
 import { ConditionalValidationPipe } from './pipes/conditional-validation.pipe';
-import { SiteSettingsDto } from './dto/site-settings.dto';
+import { SiteSettingsDto } from './dto/get-site-settings.dto';
 import { GetSettingsQueryParamsDto } from './dto/get-settings-query-params.dto';
 import { SiteSettingSerializerInterceptor } from './interceptors/site-settings.interceptor';
 
