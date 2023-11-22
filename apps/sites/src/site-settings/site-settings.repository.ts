@@ -24,14 +24,32 @@ export class SiteSettingsRepository extends AbstractRepository<SiteSettings> {
     id: number,
     type: SettingType,
   ): Promise<SiteSettingsDto> {
-    const [results]: object[] = await this.dataSource.query(
-      `EXECUTE [dbo].[CareerSite_Setting_Get]
-      @CompanyId = @0,
-      @Type = @1
-      `,
-      [id, type],
-    );
-    return plainToInstance<SiteSettingsDto, object>(SiteSettingsDto, results, {
+    let result: object;
+    switch (type) {
+      case SettingType.ANALYTICS:
+      case SettingType.CSP:
+      case SettingType.DOMAIN:
+      case SettingType.FAVICON:
+      case SettingType.PRIVACY:
+      case SettingType.ATTRIBUTES:
+        [result] = await this.dataSource.query(
+          `EXECUTE [dbo].[CareerSite_Setting_Get]
+          @CompanyId = @0,
+          @Type = @1
+          `,
+          [id, type],
+        );
+      case SettingType.REDIRECTS:
+        console.log('here');
+        result = await this.dataSource.query(
+          `EXECUTE [dbo].[CareerSite_Redirect_Select]
+          @CompanyId = @0,
+          @SortDirection = @1
+          `,
+          [id, 'asc'],
+        );
+    }
+    return plainToInstance<SiteSettingsDto, object>(SiteSettingsDto, result, {
       groups: [type.toString()],
     });
   }
