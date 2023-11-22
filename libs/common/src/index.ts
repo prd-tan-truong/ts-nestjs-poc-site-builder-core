@@ -6,3 +6,4 @@ export * from './filters';
 export * from './config';
 export * from './interceptors';
 export * from './dto';
+export * from './olivia';
