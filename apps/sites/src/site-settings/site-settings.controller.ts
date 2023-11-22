@@ -14,10 +14,15 @@ import { ConditionalValidationPipe } from './pipes/conditional-validation.pipe';
 import { SiteSettingsDto } from './dto/get-site-settings.dto';
 import { GetSettingsQueryParamsDto } from './dto/get-settings-query-params.dto';
 import { SiteSettingSerializerInterceptor } from './interceptors/site-settings.interceptor';
+import { OliviaSystemAttributesService } from '@app/common/olivia/services/system-attributes.service';
+import { SettingType } from './constants/setting-type.constant';
 
 @Controller('site-settings')
 export class SiteSettingsController {
-  constructor(private readonly siteSettingsService: SiteSettingsService) {}
+  constructor(
+    private readonly siteSettingsService: SiteSettingsService,
+    private readonly oliviaSystemAttributesService: OliviaSystemAttributesService,
+  ) {}
 
   @Put(':id')
   async updateSettingOfSite(
@@ -42,6 +47,12 @@ export class SiteSettingsController {
       id,
       query.type,
     );
+    if (query.type === SettingType.ATTRIBUTES) {
+      const saAttributes =
+        await this.oliviaSystemAttributesService.getListSaFromOlivia(605);
+      console.log(saAttributes);
+      console.log(data);
+    }
     return data;
   }
 }

@@ -39,8 +39,8 @@ export class SiteSettingsRepository extends AbstractRepository<SiteSettings> {
           `,
           [id, type],
         );
+        break;
       case SettingType.REDIRECTS:
-        console.log('here');
         result = await this.dataSource.query(
           `EXECUTE [dbo].[CareerSite_Redirect_Select]
           @CompanyId = @0,
@@ -48,6 +48,9 @@ export class SiteSettingsRepository extends AbstractRepository<SiteSettings> {
           `,
           [id, 'asc'],
         );
+        break;
+      default:
+        throw new Error('Not supported.');
     }
     return plainToInstance<SiteSettingsDto, object>(SiteSettingsDto, result, {
       groups: [type.toString()],

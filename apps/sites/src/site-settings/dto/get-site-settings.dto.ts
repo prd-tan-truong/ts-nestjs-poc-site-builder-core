@@ -5,6 +5,7 @@ import { DomainDto } from './categories/domain.dto';
 import { FaviconDto } from './categories/favicon.dto';
 import { PrivacyDto } from './categories/privacy.dto';
 import { RedirectDto } from './categories/redirect.dto';
+import { AttributesDbDto } from './categories/attributes.dto';
 
 export class SiteSettingsDto extends IntersectionType(
   AnalyticsDto,
@@ -13,4 +14,5 @@ export class SiteSettingsDto extends IntersectionType(
   FaviconDto,
   PrivacyDto,
   RedirectDto,
+  AttributesDbDto,
 ) {}
